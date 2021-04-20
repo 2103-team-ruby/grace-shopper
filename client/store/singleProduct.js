@@ -19,7 +19,7 @@ export const fetchProduct = (id) => {
   }
 }
 
-const initialState = [];
+const initialState = {};
 
 export default function singleProductReducer(state = initialState, action){
   switch(action.type){
