@@ -356,8 +356,6 @@ async function seed() {
 			subtotal: 1 * poisonDartFrog.price,
 		},
 	});
-
-	console.log(`seeded ${users.length} users`);
 	console.log(`seeded successfully`);
 }
 
