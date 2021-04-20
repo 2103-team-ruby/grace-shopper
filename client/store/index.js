@@ -8,8 +8,8 @@ import singleProductReducer from './singleProduct'
 
 const reducer = combineReducers({
   auth,
-singleProductReducer,
-allProductsReducer
+  singleProductReducer,
+  allProductsReducer
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
