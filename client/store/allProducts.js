@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const GOT_ALL_PRODUCTS = 'GOT_ALL_PRODUCTS'
 
-export const gotProducts = (products) => ({
+export const setProducts = (products) => ({
   type: GOT_ALL_PRODUCTS,
   products
 })
@@ -12,7 +12,7 @@ export const fetchProducts = () => {
     try {
       const response = await axios.get('/api/products')
       const products = response.data
-      dispatch(gotProducts(products))
+      dispatch(setProducts(products))
     } catch (error) {
       console.log(error)
     }
