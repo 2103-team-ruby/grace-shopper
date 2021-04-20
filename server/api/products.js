@@ -23,13 +23,4 @@ router.get('/:productId', async (req, res, next) => {
     }
 })
 
-// POST /api/products/:productId
-router.post('/:productId', async (req, res, next) => {
-    try {
-        const product = await Product.findByPk(req.params.productId);
-        res.status(201).send(await Order.addProduct(product))
-    } catch(error) {
-        next(error)
 
-    }
-})
