@@ -5,7 +5,7 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>FS-App-Template</h1>
+    <h1>Grace Shopper</h1>
     <nav>
       {isLoggedIn ? (
         <div>
@@ -22,6 +22,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/signup">Sign Up</Link>
         </div>
       )}
+      <div>
+        <Link to="/cart">Cart</Link>
+      </div>
     </nav>
     <hr />
   </div>
