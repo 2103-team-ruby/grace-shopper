@@ -18,8 +18,9 @@ const User = db.define("user", {
 	githubId: {
 		type: Sequelize.INTEGER,
 	},
-	type: {
-		type: Sequelize.ENUM("admin", "customer"),
+	isAdmin: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	},
 });
 
