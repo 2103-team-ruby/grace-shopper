@@ -4,26 +4,35 @@ import { connect } from "react-redux";
 import { fetchProduct } from "../store/singleProduct";
 
 class SelectedProduct extends React.Component {
+
   componentDidMount() {
-    const { productId } = this.props.match.params;
-    this.props.getSingleProduct(productId);
+    console.log('this is this.props --->', this.props)
+    try {
+    this.props.getSingleProduct(this.props.match.params.id);
+    console.log('this is this.props --->', this.props)
+    } catch (error) {
+      console.log(error)
+    }
   }
   render() {
-    const { singleProduct } = this.props;
+    const {product} = this.props
+    console.log('this is this.props --->', this.props)
+    console.log('this is product --->', product)
+
     return (
       <div>
         <div>
           <img
-            src={singleProduct.imageUrl}
-            alt={singleProduct.name}
+            src={product.imageUrl}
+            alt={product.name}
             height="200"
             width="250"
           />
           <div>
-            <h1>Name: {singleProduct.name}</h1>
-            <h3>Price: {singleProduct.price}</h3>
-            <h3>In Stock: {singleProduct.inventory}</h3>
-            <h3>Description: {singleProduct.description}</h3>
+            <h1>Name: {product.name}</h1>
+            <h3>Price: {product.price}</h3>
+            <h3>In Stock: {product.inventory}</h3>
+            <h3>Description: {product.description}</h3>
             <button>Buy Now</button>
             {/* <Link to="/cart">
               <button>Buy Now</button>
@@ -37,20 +46,20 @@ class SelectedProduct extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-const mapState = (state) => {
+const mapStateToProps = (state) => {
   return {
-    singleProduct: state.singleProduct,
-  };
-};
+    product: state.singleProduct,
+  }
+}
 
-const mapDispatch = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleProduct: (productId) => dispatch(fetchProduct(productId)),
-  };
-};
+    getSingleProduct: (id) => dispatch(fetchProduct(id)),
+  }
+}
 
-export default connect(mapState, mapDispatch)(SelectedProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectedProduct);

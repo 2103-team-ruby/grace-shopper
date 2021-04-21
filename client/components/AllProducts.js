@@ -7,9 +7,7 @@ import { Link } from "react-router-dom";
 // (below) is not connected to Redux, while the default export (at the very
 // bottom) is connected to Redux. Our tests should cover _both_ cases.
 export class AllProducts extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  
 
   componentDidMount() {
     this.props.getProducts();
