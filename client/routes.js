@@ -1,9 +1,12 @@
 import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {withRouter, Route, Switch, Redirect, BrowserRouter as Router} from 'react-router-dom'
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import {me} from './store'
+import AllProducts from './components/AllProducts'
+import SelectedProduct from './components/SelectedProduct'
+import home from './components/Home';
 
 /**
  * COMPONENT
@@ -15,22 +18,18 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
-
     return (
+      <Router>
       <div>
-        {isLoggedIn ? (
-          <Switch>
-            <Route path="/home" component={Home} />
-            <Redirect to="/home" />
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path='/' exact component={ Login } />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-          </Switch>
-        )}
+        <Switch>
+          <Route exact path ='/' component={home}/>
+          <Route exact path ='/products' component={AllProducts}/>
+          <Route exact path ='/products/:id' component={SelectedProduct}/>
+          <Route path= '/login' component={Login}/>
+          <Route path ='/signup' component={Signup}/>
+        </Switch>
       </div>
+    </Router>
     )
   }
 }
@@ -57,3 +56,20 @@ const mapDispatch = dispatch => {
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
+
+
+/*<div>
+        {isLoggedIn ? (
+          <Switch>
+            <Route path="/home" component={Home} />
+            <Redirect to="/home" />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path='/' exact component={ Login } />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+          </Switch>
+        )}
+      </div>
+*/
