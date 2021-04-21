@@ -57,24 +57,24 @@ router.post("/:id/cart", async (req, res, next) => {
 			await order.reload({
 				include: [{ model: ProductOrder }],
 			});
-			res.send(order.productOrders[0]);
+			res.send(order.productOrders);
 		} else {
 			const cartItems = order.productOrders;
 
 			const currentCartItems = cartItems.map((cartItem) => cartItem.productId);
-			const isItemThere = currentCartItems.indexOf(Number(req.body.productId));
+			const itemIdx = currentCartItems.indexOf(Number(req.body.productId));
 
-			if (isItemThere === -1) {
+			if (itemIdx === -1) {
 				await order.addProduct(newProduct, {
 					through: { quantity: 1, subtotal: 1 * newProduct.price },
 				});
-				res.send(order);
+				res.send(order.productOrders);
 			} else {
-				const productOrder = cartItems[isItemThere];
+				const productOrder = cartItems[itemIdx];
 				await productOrder.increment("quantity");
 				productOrder.subtotal = newProduct.price * productOrder.quantity;
 				await productOrder.save();
-				res.send(order);
+				res.send(order.productOrders);
 			}
 		}
 	} catch (error) {
