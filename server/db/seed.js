@@ -7,62 +7,62 @@ async function createInitialUsers() {
           {
             username: 'Mike',
             password: 'Jordan23',
-            type: customer // check case of ENUM from Models
+            isAdmin: false
           },
           {
             username: 'BunnyLover',
             password: 'password',
-            type: customer
+            isAdmin: false
           },
           {
             username: 'BugsBunny',
             password: 'Carrot',
-            type: customer
+            isAdmin: false
           },
           {
             username: 'Lebron',
             password: 'Spacejam2',
-            type: customer
+            isAdmin: false
           },
           {
             username: 'EnergizerBunny',
             password: 'battery',
-            type: customer // check case of ENUM from Models
+            isAdmin: false
           },
           {
             username: 'Admin',
             password: 'Admin',
-            type: admin
+            isAdmin: true
           },
           {
             username: 'Brendan',
             password: 'password',
-            type: admin
+            isAdmin: true
           },
           {
             username: 'Isabelle',
             password: 'Isabelle',
-            type: customer
+            isAdmin: true
           },
           {
             username: 'Keon',
             password: 'Keon',
-            type: admin // check case of ENUM from Models
+            isAdmin: true
           },
           {
             username: 'Altus',
             password: 'Altus',
-            type: customer
+            isAdmin: true
           },
           {
             username: 'GraceShopper',
             password: 'FullStack',
-            type: customer
+            isAdmin: false
           },
           {
             username: 'PeterRabbit',
             password: 'password',
-            type: customer
+            isAdmin: false
           },
       ]
       console.log(seededUsers);
@@ -162,51 +162,51 @@ async function createInitialOrders () {
     seededOrders = [
       {
         userId:  user.id.1,
-        status: complete
+        isPaid: true
       },
       {
         userId:  user.id.1,
-        status: complete
+        isPaid: true
       },
       {
         userId:  user.id.2,
-        status: incomplete
+        isPaid: false
       },
       {
         userId:  user.id.4,
-        status: complete
+        isPaid: true
       },
       {
         userId:  user.id.3,
-        status: incomplete
+        isPaid: false
       },
       {
         userId:  user.id.6,
-        status: complete
+        isPaid: true
       },
       {
         userId:  user.id.7,
-        status: incomplete
+        isPaid: false
       },
       {
         userId:  user.id.8,
-        status: complete
+        isPaid: true
       },
       {
         userId:  user.id.9,
-        status: complete
+        isPaid: true
+      },
+      {
+        userId: user.id.10,
+        isPaid: true
       },
       {
         userId:  user.id.10,
-        status: complete
-      },
-      {
-        userId:  user.id.10,
-        status: incomplete
+        isPaid: false
       },
       {
         userId:  user.id.11,
-        status: complete
+        isPaid: true
       },
     ]
     const [orders] = await Orders.bulkCreate(seededOrders)
