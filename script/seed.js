@@ -17,62 +17,62 @@ async function seed() {
 	const mike = await User.create({
 		username: "Mike",
 		password: "Jordan23",
-		type: "customer", // check case of ENUM from Models
+		isAdmin: false, // check case of ENUM from Models
 	});
 	const bunnyLover = await User.create({
 		username: "BunnyLover",
 		password: "password",
-		type: "customer",
+		isAdmin: false,
 	});
 	const bugsBunny = await User.create({
 		username: "BugsBunny",
 		password: "Carrot",
-		type: "customer",
+		isAdmin: false,
 	});
 	const lebron = await User.create({
 		username: "Lebron",
 		password: "Spacejam2",
-		type: "customer",
+		isAdmin: false,
 	});
 	const energizerBunny = await User.create({
 		username: "EnergizerBunny",
 		password: "battery",
-		type: "customer", // check case of ENUM from Models
+		isAdmin: false, // check case of ENUM from Models
 	});
 	const admin = await User.create({
 		username: "Admin",
 		password: "Admin",
-		type: "admin",
+		isAdmin: true,
 	});
 	const brendan = await User.create({
 		username: "Brendan",
 		password: "password",
-		type: "admin",
+		isAdmin: true,
 	});
 	const isabelle = await User.create({
 		username: "Isabelle",
 		password: "Isabelle",
-		type: "customer",
+		isAdmin: true,
 	});
 	const keon = await User.create({
 		username: "Keon",
 		password: "Keon",
-		type: "admin", // check case of ENUM from Models
+		isAdmin: true, // check case of ENUM from Models
 	});
 	const altus = await User.create({
 		username: "Altus",
 		password: "Altus",
-		type: "customer",
+		isAdmin: true,
 	});
 	const graceShopper = await User.create({
 		username: "GraceShopper",
 		password: "FullStack",
-		type: "customer",
+		isAdmin: false,
 	});
 	const peterRabbit = await User.create({
 		username: "PeterRabbit",
 		password: "password",
-		type: "customer",
+		isAdmin: false,
 	});
 
 	// products
@@ -166,42 +166,42 @@ async function seed() {
 	});
 
 	// orders
-	const orderOne = await Order.create({ userId: mike.id, status: "complete" });
+	const orderOne = await Order.create({ userId: mike.id, isPaid: true });
 	const orderTwo = await Order.create({
 		userId: bunnyLover.id,
-		status: "complete",
+		isPaid: true,
 	});
 	const orderThree = await Order.create({
 		userId: lebron.id,
-		status: "complete",
+		isPaid: true,
 	});
 	const orderFour = await Order.create({
 		userId: bugsBunny.id,
-		status: "complete",
+		isPaid: true,
 	});
 	const orderFive = await Order.create({
 		userId: energizerBunny.id,
-		status: "complete",
+		isPaid: true,
 	});
 	const orderSix = await Order.create({
 		userId: mike.id,
-		status: "incomplete",
+		isPaid: false,
 	});
 	const orderSeven = await Order.create({
 		userId: isabelle.id,
-		status: "incomplete",
+		isPaid: false,
 	});
 	const orderEight = await Order.create({
 		userId: brendan.id,
-		status: "incomplete",
+		isPaid: false,
 	});
 	const orderNine = await Order.create({
 		userId: keon.id,
-		status: "incomplete",
+		isPaid: false,
 	});
 	const orderTen = await Order.create({
 		userId: altus.id,
-		status: "incomplete",
+		isPaid: false,
 	});
 
 	await orderOne.addProduct(bunnyRabbit, {
