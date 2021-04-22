@@ -21,7 +21,7 @@ router.get("/:id/cart", async (req, res, next) => {
 		const order = await Order.findOne({
 			where: {
 				userId: req.params.id,
-				status: "incomplete",
+				isPaid: false,
 			},
 			include: [{ model: ProductOrder }],
 		});
@@ -38,7 +38,7 @@ router.post("/:id/cart", async (req, res, next) => {
 		let order = await Order.findOne({
 			where: {
 				userId: req.params.id,
-				status: "incomplete",
+				isPaid: false,
 			},
 			include: [{ model: ProductOrder }],
 		});
@@ -61,6 +61,9 @@ router.post("/:id/cart", async (req, res, next) => {
 			if (itemIdx === -1) {
 				await order.addProduct(newProduct, {
 					through: { quantity: 1, subtotal: 1 * newProduct.price },
+				});
+				await order.reload({
+					include: [{ model: ProductOrder }],
 				});
 				res.send(order.productOrders);
 			} else {
