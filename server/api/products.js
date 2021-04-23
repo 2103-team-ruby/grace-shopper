@@ -5,7 +5,7 @@ const {
   isAdmin,
   isCorrectUser,
   isCorrectUserOrAdmin,
-} = require("./gatekeepingMiddlewaregate");
+} = require("./gatekeepingMiddleware");
 
 const router = require("express").Router();
 

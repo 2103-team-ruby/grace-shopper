@@ -8,7 +8,7 @@ const {
   isAdmin,
   isCorrectUser,
   isCorrectUserOrAdmin,
-} = require("./gatekeepingMiddlewaregate");
+} = require("./gatekeepingMiddleware");
 module.exports = router;
 
 //Access: admin, token not required
