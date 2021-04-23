@@ -43,7 +43,6 @@ try {
 router.put("/:productId", isAdmin, async (req, res, next) => {
 	try {
 		const productToUpdate = await Product.findByPk(req.params.productId)
-		//const updatedProduct= await Product.update(productToUpdate)
 		res.json(await productToUpdate.update(req.body))
 	} catch (error) {
 		console.error(error)
