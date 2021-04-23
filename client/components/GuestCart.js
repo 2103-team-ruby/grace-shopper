@@ -9,10 +9,11 @@ export class GuestCart extends React.Component {
   constructor(props) {
       super(props)
       this.state = {
-        quantity: ""
+        quantity: 1
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleDelete = this.handleDelete.bind(this)
+      this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -22,16 +23,18 @@ export class GuestCart extends React.Component {
       this.props.getGuestCart(guestProducts)
   }
 
-//   componentDidUpdate(){
-//     const filteredArr = Object.keys(localStorage)
-//     let guestProducts = filteredArr.filter(num => isNaN(num) === false)
-//     this.props.getGuestCart(guestProducts)
-//   }
 
   handleChange(evt) {
     this.setState({
       [evt.target.name]: evt.target.value
     });
+  }
+
+  handleSubmit(id){
+    localStorage.setItem(id, this.state.quantity)
+    const filteredArr = Object.keys(localStorage)
+    let guestProducts = filteredArr.filter(num => isNaN(num) === false)
+    this.props.getGuestCart(guestProducts)
   }
 
   handleDelete(id) {
@@ -46,7 +49,7 @@ export class GuestCart extends React.Component {
   render() {
     console.log('this is this.props -->', this.props)
     const { products } = this.props
-    const { handleChange} = this;
+    const { handleChange, handleSubmit} = this;
     const { quantity } = this.state
     return (
     <div> 
@@ -68,10 +71,10 @@ export class GuestCart extends React.Component {
                     Delete Product
                 </button>
                 <div>
-                    <form id='update-product-form' >
+                    <form id='update-product-form' onSubmit={(ev) => ev.preventDefault()}>
                     <label htmlFor='quantity'>Quantity :</label>
-                    <input type="email" className="update-forml" onChange={handleChange} value={quantity} />
-                    <button type='submit'>Update Quantity</button>
+                    <input name={`quantity`} type="number" className="update-forml" onChange={handleChange} value={quantity} />
+                    <button type='submit'  onClick={() => this.handleSubmit(product.id)}>Update Quantity</button>
                     </form>
                 </div>
             </div>
