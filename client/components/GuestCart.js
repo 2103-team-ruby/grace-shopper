@@ -64,7 +64,7 @@ export class GuestCart extends React.Component {
     const hasProducts = products && products.length
     const { handleChange, handleSubmit, handleCheckout} = this;
     const { quantity } = this.state
-    let Subtotal = 0
+    let subtotal = 0
     return (
     <div> 
         <h1>Your Shopping Cart</h1>
@@ -77,7 +77,8 @@ export class GuestCart extends React.Component {
                     <h3>Product: {product.name}</h3>
                     <img src={product.imageUrl} alt={product.name} />
                 </Link>
-                <p>Price: {`$ ${product.price}`}</p>
+                <p>Price: {`$ ${product.price * localStorage.getItem(product.id)}`}</p>
+                {subtotal += product.price * localStorage.getItem(product.id)}
                 <p>Quantity: {localStorage.getItem(product.id)}</p>
                 <button 
                     className='remove'
@@ -97,7 +98,9 @@ export class GuestCart extends React.Component {
             }
             <div>
 
-                <div></div>
+                <div>
+                    <p>Your subtotal is: {subtotal}</p>
+                </div>
                 <button className='checkout'
                 onSubmit={(ev) => ev.preventDefault()}
                 onClick={() => this.handleCheckout()}
