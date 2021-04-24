@@ -78,7 +78,6 @@ export class GuestCart extends React.Component {
                     <img src={product.imageUrl} alt={product.name} />
                 </Link>
                 <p>Price: {`$ ${product.price * localStorage.getItem(product.id)}`}</p>
-                {subtotal += product.price * localStorage.getItem(product.id)}
                 <p>Quantity: {localStorage.getItem(product.id)}</p>
                 <button 
                     className='remove'
@@ -92,6 +91,9 @@ export class GuestCart extends React.Component {
                     <input name={`quantity`} type="number" className="update-forml" onChange={handleChange} value={quantity} />
                     <button type='submit'  onClick={() => this.handleSubmit(product.id)}>Update Quantity</button>
                     </form>
+                </div>
+                <div className="hiddenTotal">
+                <p>Running Subtotal:{subtotal += product.price * localStorage.getItem(product.id)}</p>
                 </div>
             </div>
             ))
