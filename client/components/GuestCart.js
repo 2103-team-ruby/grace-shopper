@@ -14,6 +14,7 @@ export class GuestCart extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleDelete = this.handleDelete.bind(this)
       this.handleSubmit = this.handleSubmit.bind(this)
+      this.handleCheckout = this.handleCheckout.bind(this)
   }
 
   componentDidMount() {
@@ -31,6 +32,9 @@ export class GuestCart extends React.Component {
   }
 
   handleSubmit(id){
+    if (this.state.quantity < 1) {
+        this.state.quantity = 1
+    }
     localStorage.setItem(id, this.state.quantity)
     const filteredArr = Object.keys(localStorage)
     let guestProducts = filteredArr.filter(num => isNaN(num) === false)
@@ -42,18 +46,29 @@ export class GuestCart extends React.Component {
       const filteredArr = Object.keys(localStorage)
      let guestProducts = filteredArr.filter(num => isNaN(num) === false)
      this.props.getGuestCart(guestProducts)
+     
       
+  }
+
+  handleCheckout(){
+    localStorage.clear()
+    const filteredArr = Object.keys(localStorage)
+     let guestProducts = filteredArr.filter(num => isNaN(num) === false)
+     this.props.getGuestCart(guestProducts)
   }
 
 
   render() {
     console.log('this is this.props -->', this.props)
     const { products } = this.props
-    const { handleChange, handleSubmit} = this;
+    const hasProducts = products && products.length
+    const { handleChange, handleSubmit, handleCheckout} = this;
     const { quantity } = this.state
+    let Subtotal = 0
     return (
     <div> 
         <h1>Your Shopping Cart</h1>
+        {hasProducts > 0 ? (
         <div className='cart'>
             
             {products.map(product => (
@@ -81,11 +96,18 @@ export class GuestCart extends React.Component {
             ))
             }
             <div>
+
+                <div></div>
                 <button className='checkout'
                 onSubmit={(ev) => ev.preventDefault()}
+                onClick={() => this.handleCheckout()}
                >Checkout</button>
             </div>
         </div>
+
+        ) : (
+            <p>There are no products in your cart!</p>
+        )}
     </div>
     )
   }
