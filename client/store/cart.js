@@ -4,6 +4,7 @@ const GOT_ALL_CART_PRODUCTS = "GOT_ALL_CART_PRODUCTS";
 const DELETED_FROM_CART = "DELETED_FROM_CART";
 const EDITED_CART = "EDITED_CART";
 const ADDED_PRODUCT = "ADDED_PRODUCT";
+const SUBMITED_ORDER = "SUBMITTED_ORDER";
 
 export const setProducts = (products) => ({
 	type: GOT_ALL_CART_PRODUCTS,
@@ -22,9 +23,14 @@ const deletedProduct = (productId) => ({
 	productId,
 });
 
-const editCart = (product) => ({
+const _editCart = (productOrder) => ({
 	type: EDITED_CART,
-	product,
+	productOrder,
+});
+
+const _submitOrder = (order) => ({
+	type: SUBMITED_ORDER,
+	order,
 });
 
 export const fetchCart = (id) => {
@@ -64,13 +70,25 @@ export const deleteProduct = (userId, productId) => {
 	};
 };
 
-export const editProduct = (product) => {
+export const submitOrder = (userId, orderId) => {
 	return async (dispatch) => {
-		const { data: updated } = await axios.put(
-			`/api/products/${product.id}`,
-			product
+		const { data: order } = await axios.put(
+			`/api/users/${userId}/orders/${orderId}`,
+			{
+				isPaid: true,
+			}
 		);
-		dispatch(editCart(updated));
+		dispatch(_submitOrder(order));
+	};
+};
+
+export const editCart = (userId, productId, quantity) => {
+	return async (dispatch) => {
+		const { data: updated } = await axios.put(`/api/users/${userId}/cart`, {
+			productId: productId,
+			quantity: quantity,
+		});
+		dispatch(_editCart(updated));
 	};
 };
 
@@ -87,10 +105,13 @@ export default function cartReducer(state = initialState, action) {
 				(productOrder) => productOrder.product.id !== action.productId
 			);
 		case EDITED_CART:
-			return state.map((product) => {
-				if (product.id === action.product.id) return action.product;
-				return product;
+			return state.map((productOrder) => {
+				if (productOrder.productId === action.productOrder.productId)
+					return action.productOrder;
+				return productOrder;
 			});
+		case SUBMITED_ORDER:
+			return initialState;
 		default:
 			return state;
 	}

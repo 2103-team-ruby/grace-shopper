@@ -3,15 +3,9 @@ const User = require("../db/models/user");
 const ProductOrder = require("../db/models/productOrder");
 const Order = require("../db/models/order");
 const Product = require("../db/models/product");
-const {
-	requireToken,
-	isAdmin,
-	isCorrectUser,
-	isCorrectUserOrAdmin,
-} = require("./gatekeepingMiddleware");
+const { isAdmin, isCorrectUserOrAdmin } = require("./gatekeepingMiddleware");
 module.exports = router;
 
-//Access: admin, token not required
 router.get("/", isAdmin, async (req, res, next) => {
 	try {
 		const users = await User.findAll({
@@ -23,7 +17,6 @@ router.get("/", isAdmin, async (req, res, next) => {
 	}
 });
 
-//Access: customer, token required
 router.get("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
 	try {
 		const order = await Order.findOne({
@@ -38,7 +31,6 @@ router.get("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
 	} catch (error) {}
 });
 
-//Access: customer, token required
 router.post("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
 	try {
 		const newproductId = req.body.productId;
@@ -92,40 +84,36 @@ router.post("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
 	}
 });
 
-//Access: customer, token required
-router.put(
-	"/:id/cart/:itemId",
-	isCorrectUserOrAdmin,
-	async (req, res, next) => {
-		try {
-			const { quantity } = req.body;
-			const product = await Product.findByPk(req.params.itemId);
+router.put("/:id/cart/", isCorrectUserOrAdmin, async (req, res, next) => {
+	try {
+		const { quantity, productId } = req.body;
+		const product = await Product.findByPk(productId);
 
-			let order = await Order.findOne({
-				where: {
-					userId: req.params.id,
-					isPaid: false,
-				},
-				include: [{ model: ProductOrder }],
-			});
+		let order = await Order.findOne({
+			where: {
+				userId: req.params.id,
+				isPaid: false,
+			},
+			include: { model: ProductOrder, include: [Product] },
+		});
 
-			const cartItems = order.productOrders;
+		const cartItems = order.productOrders;
 
-			const currentCartItems = cartItems.map((cartItem) => cartItem.productId);
-			const itemIdx = currentCartItems.indexOf(Number(req.params.itemId));
+		const currentCartItems = cartItems.map((cartItem) => cartItem.productId);
 
-			const itemInCart = cartItems[itemIdx];
-			itemInCart.quantity = quantity;
-			itemInCart.subtotal = product.price * itemInCart.quantity;
-			await itemInCart.save();
-			res.send(cartItems);
-		} catch (error) {
-			next(error);
-		}
+		const itemIdx = currentCartItems.indexOf(Number(productId));
+
+		const itemInCart = cartItems[itemIdx];
+
+		itemInCart.quantity = quantity;
+		itemInCart.subtotal = product.price * itemInCart.quantity;
+		await itemInCart.save();
+		res.send(itemInCart);
+	} catch (error) {
+		next(error);
 	}
-);
+});
 
-//Access: customer, token required
 router.delete(
 	"/:id/cart/:itemId",
 	isCorrectUserOrAdmin,
@@ -145,8 +133,7 @@ router.delete(
 	}
 );
 
-//Access: customer, token required
-router.put("/:id/order/:orderId", async (req, res, next) => {
+router.put("/:id/orders/:orderId", async (req, res, next) => {
 	//should this be admin or customer & admin
 	try {
 		const order = await Order.findByPk(req.params.orderId);

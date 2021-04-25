@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchCart, deleteProduct } from "../store/cart";
-import { Link } from "react-router-dom";
+import { fetchCart, deleteProduct, submitOrder } from "../store/cart";
 import TestEditCart from "./TestEditCart";
 
 class TestCart extends Component {
@@ -11,20 +10,20 @@ class TestCart extends Component {
 
 	render() {
 		const cart = this.props.cart || [];
-		console.log(this.props);
+
 		return (
 			<div>
 				{cart.map((order) => (
 					<div key={order.product.id}>
 						<h1>{order.product.name}</h1>
 						<h3>Quantity: {order.quantity || {}}</h3>
-						{/* <div>
+						<div>
 							<TestEditCart
 								userId={this.props.userId}
-								productId={product.id}
-								quantity={product.productOrder.quantity}
+								productId={order.product.id}
+								quantity={order.quantity}
 							/>
-						</div> */}
+						</div>
 
 						<button
 							onClick={() =>
@@ -34,6 +33,12 @@ class TestCart extends Component {
 						</button>
 					</div>
 				))}
+				<button
+					onClick={() =>
+						this.props.checkout(this.props.userId, cart[0].orderId)
+					}>
+					Checkout
+				</button>
 			</div>
 		);
 	}
@@ -51,6 +56,7 @@ const mapDispatchToProps = (dispatch, { history }) => {
 		loadCart: (id) => dispatch(fetchCart(id)),
 		deleteItem: (userId, productId) =>
 			dispatch(deleteProduct(userId, productId, history)),
+		checkout: (userId, orderId) => dispatch(submitOrder(userId, orderId)),
 	};
 };
 

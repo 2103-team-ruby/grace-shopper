@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { addToCart } from "../store/cart";
-// import { Link } from "react-router-dom";
 import { fetchProduct } from "../store/singleProduct";
 
 class SelectedProduct extends React.Component {
@@ -36,12 +35,6 @@ class SelectedProduct extends React.Component {
 							}>
 							Add to Cart
 						</button>
-
-						{/* <Link to={`${singleProduct.id}/edit`}> //for admin
-              <button>
-                Edit
-              </button>
-            </Link> */}
 					</div>
 				</div>
 			</div>
