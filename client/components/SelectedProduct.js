@@ -4,6 +4,12 @@ import { connect } from "react-redux";
 import { fetchProduct } from "../store/singleProduct";
 
 class SelectedProduct extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+
+  }
 
   componentDidMount() {
     console.log('this is this.props --->', this.props)
@@ -14,6 +20,18 @@ class SelectedProduct extends React.Component {
       console.log(error)
     }
   }
+
+  handleSubmit(id) {
+    let quan = 1
+    if (localStorage.getItem(id) >= 1) {
+      quan = localStorage.getItem(id)
+      quan++
+    }
+    localStorage.setItem(id, quan)
+}
+
+
+
   render() {
     const {product} = this.props
     console.log('this is this.props --->', this.props)
@@ -33,7 +51,11 @@ class SelectedProduct extends React.Component {
             <h3>Price: {product.price}</h3>
             <h3>In Stock: {product.inventory}</h3>
             <h3>Description: {product.description}</h3>
-            <button>Buy Now</button>
+            <button
+             className='add-to-cart'
+             onSubmit={(ev) => ev.preventDefault()}
+             onClick={() => this.handleSubmit(product.id)}>
+            Add To Cart</button>
             {/* <Link to="/cart">
               <button>Buy Now</button>
             </Link> */}

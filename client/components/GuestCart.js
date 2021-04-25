@@ -101,7 +101,7 @@ export class GuestCart extends React.Component {
             <div>
 
                 <div>
-                    <p>Your subtotal is: {subtotal}</p>
+                    <p>Your subtotal is: {subtotal.toFixed(2)}</p>
                 </div>
                 <button className='checkout'
                 onSubmit={(ev) => ev.preventDefault()}
