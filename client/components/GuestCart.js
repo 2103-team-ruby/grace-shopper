@@ -51,10 +51,10 @@ export class GuestCart extends React.Component {
   }
 
   handleCheckout(){
-    localStorage.clear()
-    const filteredArr = Object.keys(localStorage)
-     let guestProducts = filteredArr.filter(num => isNaN(num) === false)
-     this.props.getGuestCart(guestProducts)
+    // localStorage.clear()
+    // const filteredArr = Object.keys(localStorage)
+    //  let guestProducts = filteredArr.filter(num => isNaN(num) === false)
+    //  this.props.getGuestCart(guestProducts)
   }
 
 
@@ -103,10 +103,12 @@ export class GuestCart extends React.Component {
                 <div>
                     <p>Your subtotal is: {subtotal.toFixed(2)}</p>
                 </div>
+                <Link to='/guestpayment'>
                 <button className='checkout'
                 onSubmit={(ev) => ev.preventDefault()}
                 onClick={() => this.handleCheckout()}
                >Checkout</button>
+               </Link>
             </div>
         </div>
 
