@@ -1,86 +1,67 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { addToCart } from "../store/cart";
 import { fetchProduct } from "../store/singleProduct";
 
 class SelectedProduct extends React.Component {
-  constructor(props) {
-    super(props)
+	componentDidMount() {
+		try {
+			this.props.getSingleProduct(this.props.match.params.id);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	render() {
+		const { product } = this.props;
+		console.log(this.props);
 
-    this.handleSubmit = this.handleSubmit.bind(this)
-
-  }
-
-  componentDidMount() {
-    console.log('this is this.props --->', this.props)
-    try {
-    this.props.getSingleProduct(this.props.match.params.id);
-    console.log('this is this.props --->', this.props)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  handleSubmit(id) {
-    let quan = 1
-    if (localStorage.getItem(id) >= 1) {
-      quan = localStorage.getItem(id)
-      quan++
-    }
-    localStorage.setItem(id, quan)
-}
-
-
-
-  render() {
-    const {product} = this.props
-    console.log('this is this.props --->', this.props)
-    console.log('this is product --->', product)
-    return (
-      <div>
-        <div>
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            height="200"
-            width="250"
-          />
-          <div>
-            <h1>Name: {product.name}</h1>
-            <h3>Price: {product.price}</h3>
-            <h3>In Stock: {product.inventory}</h3>
-            <h3>Description: {product.description}</h3>
-            <button
-             className='add-to-cart'
-             onSubmit={(ev) => ev.preventDefault()}
-             onClick={() => this.handleSubmit(product.id)}>
-            Add To Cart</button>
-            {/* <Link to="/cart">
-              <button>Buy Now</button>
-            </Link> */}
-
-            {/* <Link to={`${singleProduct.id}/edit`}> //for admin
-              <button>
-                Edit
-              </button>
-            </Link> */}
-          </div>
-        </div>
-      </div>
-    )
-  }
+		return (
+			<div className='container'>
+				<div className='card my-3'>
+					<div className='row g-0'>
+						<div className='col-md-4'>
+							<img
+								src={product.imageUrl}
+								alt={product.name}
+								className='img-fluid'
+							/>
+						</div>
+						<div className='col-md-8'>
+							<div className='card-body '>
+								<h2 className='card-title display-5'>{product.name}</h2>
+							</div>
+							<div className='card-text p-3'>
+								<h5>${product.price}</h5>
+								<h5>In stock: {product.inventory}</h5>
+								<h5>{product.description}</h5>
+								<button
+									className='btn btn-sm btn-outline-secondary my-1'
+									onClick={() =>
+										this.props.addToCart(this.props.userId, product.id)
+									}>
+									Add to Cart
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = (state) => {
-  return {
-    product: state.singleProduct,
-  }
-}
+	return {
+		product: state.singleProduct,
+		userId: state.auth.id,
+	};
+};
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getSingleProduct: (id) => dispatch(fetchProduct(id)),
-  }
-}
+	return {
+		getSingleProduct: (id) => dispatch(fetchProduct(id)),
+		addToCart: (userId, productId) => dispatch(addToCart(userId, productId)),
+	};
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectedProduct);
