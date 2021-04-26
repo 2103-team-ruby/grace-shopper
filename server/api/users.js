@@ -164,3 +164,24 @@ router.get("/:id/orders", async (req, res, next) => {
 		next(error);
 	}
 });
+
+
+//Tier 2 - User Profile
+
+router.get("/:id/profile", isCorrectUserOrAdmin,
+async (req, res, next) => {
+	try {
+		console.log('this is req.params --->', req.params)
+		const user = await User.findOne({
+			where: {
+				id: req.params.id,
+			},
+		});
+		res.json(user)
+	} catch (error) {
+		next(error);
+	}
+}
+);
+
+

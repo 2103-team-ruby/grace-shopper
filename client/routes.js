@@ -8,6 +8,7 @@ import { me } from "./store";
 import AllProducts from "./components/AllProducts";
 import SelectedProduct from "./components/SelectedProduct";
 import UserCart from "./components/TestCart";
+import UserProfile from "./components/UserProfile";
 
 
 /**
@@ -28,6 +29,7 @@ class Routes extends Component {
 					<Route path='/login' component={Login} />
 					<Route path='/signup' component={Signup} />
 					<Route path='/cart' component={UserCart} />
+					<Route path='/users/:id/profile' component={UserProfile}/>
 				</Switch>
 			</div>
 		);
