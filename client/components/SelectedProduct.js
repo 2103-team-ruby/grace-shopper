@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchProduct } from "../store/singleProduct";
 
 class SelectedProduct extends React.Component {
@@ -36,7 +36,6 @@ class SelectedProduct extends React.Component {
     const {product} = this.props
     console.log('this is this.props --->', this.props)
     console.log('this is product --->', product)
-
     return (
       <div>
         <div>
