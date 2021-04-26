@@ -9,31 +9,48 @@ class TestCart extends Component {
 	}
 
 	render() {
-		const cart = this.props.cart || [];
+		const cart = this.props.cart;
 
 		return (
-			<div>
-				{cart.map((order) => (
-					<div key={order.product.id}>
-						<h1>{order.product.name}</h1>
-						<h3>Quantity: {order.quantity || {}}</h3>
-						<div>
-							<TestEditCart
-								userId={this.props.userId}
-								productId={order.product.id}
-								quantity={order.quantity}
-							/>
+			<div className='container'>
+				{cart.length !== 0 ? (
+					cart.map((order) => (
+						<div key={order.product.id}>
+							<div className='card md-3 '>
+								<div className='row '>
+									<h1 className='display-5 mx-1'>{order.product.name}</h1>
+									<h5 className='mx-1'>Quantity: {order.quantity || {}}</h5>
+									<div className='container'>
+										<TestEditCart
+											userId={this.props.userId}
+											productId={order.product.id}
+											quantity={order.quantity}
+										/>
+									</div>
+									<div className='card-body pt-0'>
+										<div className='btn-group'>
+											<button
+												className='btn btn-sm btn-outline-secondary my-1'
+												onClick={() =>
+													this.props.deleteItem(
+														this.props.userId,
+														order.product.id
+													)
+												}>
+												Delete
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
+					))
+				) : (
+					<h1 className='display-5'>Your cart is empty.</h1>
+				)}
 
-						<button
-							onClick={() =>
-								this.props.deleteItem(this.props.userId, order.product.id)
-							}>
-							Delete
-						</button>
-					</div>
-				))}
 				<button
+					className='btn btn-sm btn-outline-secondary my-3'
 					onClick={() =>
 						this.props.checkout(this.props.userId, cart[0].orderId)
 					}>

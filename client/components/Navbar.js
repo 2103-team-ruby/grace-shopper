@@ -4,26 +4,50 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
-	<div>
-		<h1>Grace Shopper</h1>
-		<nav>
-			{isLoggedIn ? (
-				<div>
-					{/* The navbar will show these links after you log in */}
-					<Link to='/'>Products</Link>
-					<a href='#' onClick={handleClick}>
-						Logout
-					</a>
-				</div>
-			) : (
-				<div>
-					{/* The navbar will show these links before you log in */}
-					<Link to='/login'>Login</Link>
-					<Link to='/signup'>Sign Up</Link>
-				</div>
-			)}
-			<div>
-				<Link to='/cart'>Cart</Link>
+	<div className='container'>
+		<nav className='navbar navbar-expand-lg navbar-light bg-light'>
+			<div className='container-fluid'>
+				<span className='navbar-brand' href='#'>
+					Grace Hopper
+				</span>
+			</div>
+			<button
+				className='navbar-toggler'
+				type='button'
+				data-bs-toggle='collapse'
+				data-bs-target='#navbarNav'
+				aria-controls='navbarNav'
+				aria-expanded='false'
+				aria-label='Toggle navigation'>
+				<span className='navbar-toggler-icon'></span>
+			</button>
+			<div className='collapse navbar-collapse' id='navbarNav'>
+				{isLoggedIn ? (
+					<ul className='navbar-nav'>
+						<Link to='/' className='nav-item nav-link'>
+							Products
+						</Link>
+						<a href='#' className='nav-item nav-link' onClick={handleClick}>
+							Logout
+						</a>
+						<Link to='/cart' className='nav-item nav-link'>
+							Cart
+						</Link>
+					</ul>
+				) : (
+					<ul className='navbar-nav'>
+						{/* The navbar will show these links before you log in */}
+						<Link to='/login' className='nav-item nav-link'>
+							Login
+						</Link>
+						<Link to='/signup' className='nav-item nav-link'>
+							Sign Up
+						</Link>
+						<Link to='/cart' className='nav-item nav-link'>
+							Cart
+						</Link>
+					</ul>
+				)}
 			</div>
 		</nav>
 		<hr />

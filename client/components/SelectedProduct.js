@@ -16,25 +16,32 @@ class SelectedProduct extends React.Component {
 		console.log(this.props);
 
 		return (
-			<div>
-				<div>
-					<img
-						src={product.imageUrl}
-						alt={product.name}
-						height='200'
-						width='250'
-					/>
-					<div>
-						<h1>Name: {product.name}</h1>
-						<h3>Price: {product.price}</h3>
-						<h3>In Stock: {product.inventory}</h3>
-						<h3>Description: {product.description}</h3>
-						<button
-							onClick={() =>
-								this.props.addToCart(this.props.userId, product.id)
-							}>
-							Add to Cart
-						</button>
+			<div className='container'>
+				<div className='card my-3'>
+					<div className='row g-0'>
+						<div className='col-md-4'>
+							<img
+								src={product.imageUrl}
+								alt={product.name}
+								className='img-fluid'
+							/>
+						</div>
+						<div className='col-md-8'>
+							<div className='card-body pt-0'>
+								<h2 className='card-title display-5'>{product.name}</h2>
+							</div>
+							<div className='card-text'>
+								<h5>${product.price}</h5>
+								<h5>In stock: {product.inventory}</h5>
+								<h5>{product.description}</h5>
+								<button
+									onClick={() =>
+										this.props.addToCart(this.props.userId, product.id)
+									}>
+									Add to Cart
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

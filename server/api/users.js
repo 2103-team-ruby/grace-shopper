@@ -133,11 +133,33 @@ router.delete(
 	}
 );
 
-router.put("/:id/orders/:orderId", async (req, res, next) => {
-	//should this be admin or customer & admin
+router.put(
+	"/:id/orders/:orderId",
+	isCorrectUserOrAdmin,
+	async (req, res, next) => {
+		//should this be admin or customer & admin
+		try {
+			const order = await Order.findByPk(req.params.orderId);
+			res.send(await order.update(req.body));
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+
+router.get("/:id/orders", async (req, res, next) => {
 	try {
-		const order = await Order.findByPk(req.params.orderId);
-		res.send(await order.update(req.body));
+		const orders = await Order.findAll({
+			where: {
+				userId: req.params.id,
+				isPaid: true,
+			},
+			include: {
+				model: ProductOrder,
+				include: [Product],
+			},
+		});
+		res.send(orders);
 	} catch (error) {
 		next(error);
 	}

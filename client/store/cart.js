@@ -5,6 +5,7 @@ const DELETED_FROM_CART = "DELETED_FROM_CART";
 const EDITED_CART = "EDITED_CART";
 const ADDED_PRODUCT = "ADDED_PRODUCT";
 const SUBMITED_ORDER = "SUBMITTED_ORDER";
+const LOAD_ORDERS = "LOAD_ORDERS";
 
 export const setProducts = (products) => ({
 	type: GOT_ALL_CART_PRODUCTS,
@@ -31,6 +32,11 @@ const _editCart = (productOrder) => ({
 const _submitOrder = (order) => ({
 	type: SUBMITED_ORDER,
 	order,
+});
+
+const _fetchOrders = (orders) => ({
+	type: LOAD_ORDERS,
+	orders,
 });
 
 export const fetchCart = (id) => {

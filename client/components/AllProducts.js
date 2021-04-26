@@ -7,38 +7,51 @@ import { Link } from "react-router-dom";
 // (below) is not connected to Redux, while the default export (at the very
 // bottom) is connected to Redux. Our tests should cover _both_ cases.
 export class AllProducts extends React.Component {
-  
+	componentDidMount() {
+		this.props.getProducts();
+	}
 
-  componentDidMount() {
-    this.props.getProducts();
-  }
-
-  render() {
-    const { products } = this.props;
-    return (
-      <div>
-        <div className="allProducts">
-          {products.map((product) => (
-            <div key={product.id}>
-              <Link to={`/products/${product.id}`}>
-                <h3>Product Name: {product.name}</h3>
-                <img src={product.imageUrl} alt={product.name} />
-              </Link>
-              <p>Price: {product.price}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+	render() {
+		const { products } = this.props;
+		return (
+			<div className='container'>
+				<div className='allProducts'>
+					<div className='album py-5 bg-light'>
+						<div className='container'>
+							<div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
+								{products.map((product) => (
+									<div className='col' key={product.id}>
+										<div className='card shadow-sm'>
+											<img
+												className='card-img-top'
+												preserveAspectRatio='xMidYMid slice'
+												src={product.imageUrl}
+												alt={product.name}
+											/>
+											<div className='card-body text-center'>
+												<Link to={`/products/${product.id}`}>
+													<h3>{product.name}</h3>
+												</Link>
+												<p>{product.price}</p>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 const mapState = (state) => ({
-  products: state.allProducts,
+	products: state.allProducts,
 });
 
 const mapDispatch = (dispatch) => ({
-  getProducts: () => dispatch(fetchProducts()),
+	getProducts: () => dispatch(fetchProducts()),
 });
 
 export default connect(mapState, mapDispatch)(AllProducts);
