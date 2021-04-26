@@ -23,3 +23,7 @@ form div {
 img {
 	height: auto;
 }
+
+.hiddenTotal {
+  display: none;
+}
