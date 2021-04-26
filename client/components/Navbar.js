@@ -7,7 +7,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 	<div className='container'>
 		<nav className='navbar navbar-expand-lg navbar-light bg-light'>
 			<div className='container-fluid'>
-				<span className='navbar-brand' href='#'>
+				<span className='navbar-brand display-1' href='#'>
 					Grace Hopper
 				</span>
 			</div>

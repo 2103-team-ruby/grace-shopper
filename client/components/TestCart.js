@@ -10,13 +10,14 @@ class TestCart extends Component {
 
 	render() {
 		const cart = this.props.cart;
+		console.log(cart);
 
 		return (
 			<div className='container'>
 				{cart.length !== 0 ? (
 					cart.map((order) => (
 						<div key={order.product.id}>
-							<div className='card md-3 '>
+							<div className='card md-3 my-2'>
 								<div className='row '>
 									<h1 className='display-5 mx-1'>{order.product.name}</h1>
 									<h5 className='mx-1'>Quantity: {order.quantity || {}}</h5>
@@ -27,6 +28,7 @@ class TestCart extends Component {
 											quantity={order.quantity}
 										/>
 									</div>
+									<p className='mx-1 my-1'>Subtotal: ${order.subtotal}</p>
 									<div className='card-body pt-0'>
 										<div className='btn-group'>
 											<button
@@ -48,9 +50,14 @@ class TestCart extends Component {
 				) : (
 					<h1 className='display-5'>Your cart is empty.</h1>
 				)}
-
+				<div className='my-1'>
+					Total: ${" "}
+					{cart.reduce((total, item) => {
+						return Number(total) + Number(item.subtotal);
+					}, 0)}
+				</div>
 				<button
-					className='btn btn-sm btn-outline-secondary my-3'
+					className='btn btn-sm btn-outline-secondary my-1'
 					onClick={() =>
 						this.props.checkout(this.props.userId, cart[0].orderId)
 					}>

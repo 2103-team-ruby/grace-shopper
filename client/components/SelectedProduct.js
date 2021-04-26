@@ -27,14 +27,15 @@ class SelectedProduct extends React.Component {
 							/>
 						</div>
 						<div className='col-md-8'>
-							<div className='card-body pt-0'>
+							<div className='card-body '>
 								<h2 className='card-title display-5'>{product.name}</h2>
 							</div>
-							<div className='card-text'>
+							<div className='card-text p-3'>
 								<h5>${product.price}</h5>
 								<h5>In stock: {product.inventory}</h5>
 								<h5>{product.description}</h5>
 								<button
+									className='btn btn-sm btn-outline-secondary my-1'
 									onClick={() =>
 										this.props.addToCart(this.props.userId, product.id)
 									}>
