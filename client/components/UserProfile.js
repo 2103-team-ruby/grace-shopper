@@ -1,16 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchPastOrders, fetchUserProfile } from "../store/userProfile";
+import { fetchPastOrders, fetchUserProfile, updateUser } from "../store/userProfile";
 
 
 class UserProfile extends React.Component {
     constructor(props) {
         super(props) 
         this.state = {
+            id: this.props.match.params.id,
             username: "",
             password: ""
         }
-      this.handleChange = this.handleChange.bind(this)  
+      this.handleChange = this.handleChange.bind(this) 
+      this.handleSubmit = this.handleSubmit.bind(this) 
     }
 	componentDidMount() {
 		try {
@@ -21,18 +23,36 @@ class UserProfile extends React.Component {
 		}
 	}
 
+     componentDidUpdate(prevProps) {
+        if (prevProps.userInfo.user.id !== this.props.userInfo.user.id) {
+          this.setState({
+            id: this.props.match.params.id,
+            username: "",
+            password: ""
+          })
+          this.props.getSingleUser(this.props.match.params.id);
+        }
+      }
+
     handleChange(evt) {
         this.setState({
           [evt.target.name]: evt.target.value
         });
       }
-    
+
+      handleSubmit(evt) {
+        evt.preventDefault();
+        this.props.updateSingleUser({ ...this.state});
+        this.props.getSingleUser(this.props.match.params.id)
+         this.props.getPastOrders(this.props.match.params.id);
+      }
 
 	render() {
 		const { userInfo } = this.props;
+        const { productOrders } = this.props.userInfo.pastOrder;
         const pastOrders = userInfo.pastOrder
         console.log('this is pastOrders ---->', userInfo)
-        console.log('this is past Orders Keys ---> ', Object.keys(pastOrders))
+        console.log('this is past Orders Keys ---> ', productOrders)
         const hasPastOrders = userInfo.pastOrder[0]
         const {handleChange, handleSubmit} = this;
         const {username, password} = this.state
@@ -97,7 +117,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getSingleUser: (id) => dispatch(fetchUserProfile(id)),
-        getPastOrders: (id) => dispatch(fetchPastOrders(id))
+        getPastOrders: (id) => dispatch(fetchPastOrders(id)),
+        updateSingleUser: (user) => dispatch(updateUser(user))
 	};
 };
 

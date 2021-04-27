@@ -184,4 +184,14 @@ async (req, res, next) => {
 }
 );
 
+//PUT /api/users/:id
+router.put('/:id', isCorrectUserOrAdmin, async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.params.id)
+		res.status(204).send( await user.update(req.body));
+	} catch (error) {
+		next(error)
+	}
+})
+
 

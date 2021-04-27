@@ -2,6 +2,7 @@ import axios from "axios";
 
 const SET_USER = "SET_USER";
 const PAST_ORDER = "PAST_ORDER";
+const EDIT_USER = "EDIT_USER";
 
 
 export const setUser = (user) => ({
@@ -12,6 +13,11 @@ export const setUser = (user) => ({
 export const pastOrders = (pastOrder) => ({
     type: PAST_ORDER,
     pastOrder,
+})
+
+export const editUser = (user) => ({
+  type: EDIT_USER,
+  user
 })
   
 
@@ -41,6 +47,19 @@ export const pastOrders = (pastOrder) => ({
       }
   }
 
+  export const updateUser = (user) => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.put(`/api/users/${user.id}`, user)
+        const userUpdated = response.data;
+        dispatch(editUser(userUpdated))
+
+      }catch(error) {
+        console.log(error)
+      }
+    }
+  }
+
   const initialState = {
       user: {},
       pastOrder: []
@@ -51,7 +70,9 @@ export const pastOrders = (pastOrder) => ({
       case SET_USER:
         return {...state, user: action.user}
       case PAST_ORDER:
-          return {...state, pastOrder: [...action.pastOrder]}
+          return {...state, pastOrder: action.pastOrder}
+      case EDIT_USER:
+        return {...state, user: action.user}
       default:
         return state;
     }
