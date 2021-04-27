@@ -168,16 +168,18 @@ router.get("/:id/orders", async (req, res, next) => {
 
 //Tier 2 - User Profile
 
-router.get("/:id/profile", isCorrectUserOrAdmin,
+router.get("/:id/profile", requireToken,
 async (req, res, next) => {
 	try {
+		if (Number(req.params.id) === req.user.id) {
 		console.log('this is req.params --->', req.params)
 		const user = await User.findOne({
 			where: {
-				id: req.params.id,
+				id: req.user.id,
 			},
 		});
 		res.json(user)
+	}
 	} catch (error) {
 		next(error);
 	}
@@ -185,10 +187,18 @@ async (req, res, next) => {
 );
 
 //PUT /api/users/:id
-router.put('/:id', isCorrectUserOrAdmin, async (req, res, next) => {
+router.put('/:id', requireToken, async (req, res, next) => {
 	try {
-		const user = await User.findByPk(req.params.id)
+		if (Number(req.params.id) === req.user.id) {
+		const user = await User.findOne(
+			{ where: {
+			id: req.user.id,
+		},
+	})
 		res.status(204).send( await user.update(req.body));
+		} else {
+			res.redirect('/products')
+		}
 	} catch (error) {
 		next(error)
 	}
