@@ -12,8 +12,6 @@ class TestCart extends Component {
 
   render() {
     const cart = this.props.cart;
-    console.log(this.props);
-
     return (
       <div className="container">
         {cart.length !== 0 ? (
