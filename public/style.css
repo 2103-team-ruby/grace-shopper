@@ -4,6 +4,7 @@ body {
 
 a {
 	text-decoration: none;
+	color: black;
 }
 
 label {
@@ -25,5 +26,5 @@ img {
 }
 
 .hiddenTotal {
-  display: none;
+	display: none;
 }

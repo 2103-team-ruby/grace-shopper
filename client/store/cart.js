@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearGuestCart } from "./guestCart";
 
 const GOT_ALL_CART_PRODUCTS = "GOT_ALL_CART_PRODUCTS";
 const DELETED_FROM_CART = "DELETED_FROM_CART";
@@ -107,6 +108,25 @@ export const editCart = (userId, productId, quantity) => {
 		}, {headers: {"authorization": token}}
 		);
 		dispatch(_editCart(updated));
+	};
+};
+
+export const combinedCarts = (userId) => {
+	return async (dispatch) => {
+		const productIds = Object.keys(localStorage).filter(
+			(num) => isNaN(num) === false
+		);
+		const quantities = Object.values(localStorage).filter(
+			(num) => isNaN(num) === false
+		);
+
+		const { data } = await axios.put(`/api/users/${userId}/cart/join`, {
+			productIds,
+			quantities,
+		});
+
+		dispatch(setProducts(data));
+		dispatch(clearGuestCart(productIds));
 	};
 };
 
