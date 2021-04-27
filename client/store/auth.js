@@ -13,55 +13,56 @@ const SET_AUTH = "SET_AUTH";
  * ACTION CREATORS
  */
 const setAuth = (auth) => ({
-	type: SET_AUTH,
-	auth,
+  type: SET_AUTH,
+  auth,
 });
 
 /**
  * THUNK CREATORS
  */
 export const me = () => async (dispatch) => {
-	const token = window.localStorage.getItem(TOKEN);
-	if (token) {
-		const res = await axios.get("/auth/me", {
-			headers: {
-				authorization: token,
-			},
-		});
-		dispatch(combinedCarts(res.data.id));
-		dispatch(setAuth(res.data));
-	}
+  const token = window.localStorage.getItem(TOKEN);
+  if (token) {
+    const res = await axios.get("/auth/me", {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch(combinedCarts(res.data.id));
+    dispatch(setAuth(res.data));
+  }
 };
 
-export const authenticate = (username, password, method) => async (
-	dispatch
+export const authenticate = (username, password, method, history) => async (
+  dispatch
 ) => {
-	try {
-		const res = await axios.post(`/auth/${method}`, { username, password });
-		window.localStorage.setItem(TOKEN, res.data.token);
-		dispatch(me());
-	} catch (authError) {
-		return dispatch(setAuth({ error: authError }));
-	}
+  try {
+    const res = await axios.post(`/auth/${method}`, { username, password });
+    window.localStorage.setItem(TOKEN, res.data.token);
+    dispatch(me());
+    history.push("/");
+  } catch (authError) {
+    return dispatch(setAuth({ error: authError }));
+  }
 };
 
 export const logout = () => {
-	window.localStorage.removeItem(TOKEN);
-	history.push("/login");
-	return {
-		type: SET_AUTH,
-		auth: {},
-	};
+  window.localStorage.removeItem(TOKEN);
+  history.push("/login");
+  return {
+    type: SET_AUTH,
+    auth: {},
+  };
 };
 
 /**
  * REDUCER
  */
 export default function (state = {}, action) {
-	switch (action.type) {
-		case SET_AUTH:
-			return action.auth;
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case SET_AUTH:
+      return action.auth;
+    default:
+      return state;
+  }
 }
