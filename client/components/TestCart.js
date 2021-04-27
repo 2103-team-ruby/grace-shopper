@@ -10,6 +10,7 @@ class TestCart extends Component {
     this.props.loadCart(this.props.userId);
   }
 
+
   render() {
     const cart = this.props.cart;
     return (

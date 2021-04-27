@@ -3,7 +3,7 @@ import axios from "axios";
 const GOT_ALL_GUEST_CART_PRODUCTS = "GOT_ALL_GUEST_CART_PRODUCTS";
 const CLEAR_GUEST_CART = "CLEAR_GUEST_CART";
 
-const setGuestProducts = (products) => ({
+export const setGuestProducts = (products) => ({
 	type: GOT_ALL_GUEST_CART_PRODUCTS,
 	products,
 });

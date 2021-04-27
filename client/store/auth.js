@@ -21,16 +21,19 @@ const setAuth = (auth) => ({
  * THUNK CREATORS
  */
 export const me = () => async (dispatch) => {
-  const token = window.localStorage.getItem(TOKEN);
-  if (token) {
-    const res = await axios.get("/auth/me", {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch(combinedCarts(res.data.id));
-    dispatch(setAuth(res.data));
-  }
+
+	const token = window.localStorage.getItem(TOKEN);
+	if (token) {
+		const res = await axios.get("/auth/me", {
+			headers: {
+				authorization: token,
+			},
+		});
+		if (res.data.id) {
+			dispatch(combinedCarts(res.data.id));
+		}
+		dispatch(setAuth(res.data));
+	}
 };
 
 export const authenticate = (username, password, method, history) => async (
