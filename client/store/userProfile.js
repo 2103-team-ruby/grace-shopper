@@ -39,7 +39,7 @@ export const editUser = (user) => ({
           try {
               const response = await axios.get(`/api/users/${id}/orders`)
               const userPastOrders = response.data;
-              console.log('this is previous order --->', userPastOrders)
+              // console.log('this is previous order --->', userPastOrders)
               dispatch(pastOrders(userPastOrders))
           } catch (error) {
               console.log(error)

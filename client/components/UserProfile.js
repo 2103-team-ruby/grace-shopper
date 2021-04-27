@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchPastOrders, fetchUserProfile, updateUser } from "../store/userProfile";
+import {Link} from 'react-router-dom'
 
 
 class UserProfile extends React.Component {
@@ -17,7 +18,7 @@ class UserProfile extends React.Component {
 	componentDidMount() {
 		try {
 			this.props.getSingleUser(this.props.match.params.id);
-            this.props.getPastOrders(this.props.match.params.id);
+      this.props.getPastOrders(this.props.match.params.id);
 		} catch (error) {
 			console.log(error);
 		}
@@ -49,15 +50,10 @@ class UserProfile extends React.Component {
 
 	render() {
 		const { userInfo } = this.props;
-        const { productOrders } = this.props.userInfo.pastOrder;
-        const pastOrders = userInfo.pastOrder
-        console.log('this is pastOrders ---->', userInfo)
-        console.log('this is past Orders Keys ---> ', productOrders)
         const hasPastOrders = userInfo.pastOrder[0]
         const {handleChange, handleSubmit} = this;
         const {username, password} = this.state
-        console.log('this is past Orders post ---> ', hasPastOrders)
-		console.log(this.props);
+		console.log('this is hasPastOrders -->', this.props);
 
 		return (
 			<div className='container'>
@@ -76,17 +72,23 @@ class UserProfile extends React.Component {
                         <input name='password' onChange={handleChange} value={password} />  
 
                         <button type='submit'>Update</button>
-
+                        {hasPastOrders && console.log('this is in render -->', hasPastOrders.productOrders)}
                         </form>
                     </div>
                     <div>
                         <h3>Previous Orders: </h3>
-                        {hasPastOrders > 0 ?  ( <div className='past-orders'>
-                        {userInfo.pastOrder[0].productOrders.map((product) => {
+                        {hasPastOrders ?  ( <div className='past-orders'>
+                        { hasPastOrders.productOrders.map((product) => {
                          return (
                         <div key={product.product.id}>
                           <Link to={`/products/${product.product.id}`}>
                             <h3>{product.product.name}</h3>
+                              <img
+                              className='card-img-top'
+                              preserveAspectRatio='xMidYMid slice'
+                              src={product.product.imageUrl}
+                              alt={product.product.name}
+                              />
                             </Link>
                             <p>Price: {product.product.price}</p>
                             <p>Quantity: {product.quantity}</p>
