@@ -32,7 +32,7 @@ export class AllProducts extends React.Component {
 												<Link to={`/products/${product.id}`}>
 													<h3>{product.name}</h3>
 												</Link>
-												<p>${product.price}</p>
+												<p>${product.price / Math.pow(10,2)}</p>
 											</div>
 										</div>
 									</div>
