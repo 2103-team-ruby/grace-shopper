@@ -1,5 +1,6 @@
 import axios from "axios";
 import history from "../history";
+import { combinedCarts } from "./cart";
 
 const TOKEN = "token";
 
@@ -20,24 +21,29 @@ const setAuth = (auth) => ({
  * THUNK CREATORS
  */
 export const me = () => async (dispatch) => {
-  const token = window.localStorage.getItem(TOKEN);
-  if (token) {
-    const res = await axios.get("/auth/me", {
-      headers: {
-        authorization: token,
-      },
-    });
-    return dispatch(setAuth(res.data));
-  }
+
+	const token = window.localStorage.getItem(TOKEN);
+	if (token) {
+		const res = await axios.get("/auth/me", {
+			headers: {
+				authorization: token,
+			},
+		});
+		if (res.data.id) {
+			dispatch(combinedCarts(res.data.id));
+		}
+		dispatch(setAuth(res.data));
+	}
 };
 
-export const authenticate = (username, password, method) => async (
+export const authenticate = (username, password, method, history) => async (
   dispatch
 ) => {
   try {
     const res = await axios.post(`/auth/${method}`, { username, password });
     window.localStorage.setItem(TOKEN, res.data.token);
     dispatch(me());
+    history.push("/");
   } catch (authError) {
     return dispatch(setAuth({ error: authError }));
   }

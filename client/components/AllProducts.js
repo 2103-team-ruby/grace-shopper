@@ -7,37 +7,64 @@ import { Link } from "react-router-dom";
 // (below) is not connected to Redux, while the default export (at the very
 // bottom) is connected to Redux. Our tests should cover _both_ cases.
 export class AllProducts extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: "all",
+		};
+		this.handleChange = this.changedDropdown.bind(this);
+	}
+
 	componentDidMount() {
 		this.props.getProducts();
 	}
 
+	changedDropdown(event) {
+		this.setState({ value: event.target.value });
+	}
+
 	render() {
-		const { products } = this.props;
+		const { value } = this.state;
+
+		const products = this.props.products.filter((product) => {
+			if (value === "all") return product;
+			if (value === "low") return product.price < 4900;
+			if (value === "medium")
+				return product.price < 45000 && product.price > 4900;
+			if (value === "high") return product.price > 45000;
+		});
 		return (
 			<div className='container'>
-				<div className='allProducts'>
-					<div className='album py-5 bg-light'>
-						<div className='container'>
-							<div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
-								{products.map((product) => (
-									<div className='col' key={product.id}>
-										<div className='card shadow-sm'>
-											<img
-												className='card-img-top'
-												preserveAspectRatio='xMidYMid slice'
-												src={product.imageUrl}
-												alt={product.name}
-											/>
-											<div className='card-body text-center'>
-												<Link to={`/products/${product.id}`}>
-													<h3>{product.name}</h3>
-												</Link>
-												<p>${product.price}</p>
-											</div>
+				<label htmlFor='prices'>Filter Prices:</label>
+				<select name='prices' onChange={this.handleChange}>
+					<option value='all'>All</option>
+					<option value='low'>Low</option>
+					<option value='medium'>Medium</option>
+					<option value='high'>High</option>
+				</select>
+				<hr />
+
+				<div className='album py-5 bg-light'>
+					<div className='container'>
+						<div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
+							{products.map((product) => (
+								<div className='col' key={product.id}>
+									<div className='card shadow-sm'>
+										<img
+											className='card-img-top'
+											preserveAspectRatio='xMidYMid slice'
+											src={product.imageUrl}
+											alt={product.name}
+										/>
+										<div className='card-body text-center'>
+											<Link to={`/products/${product.id}`}>
+												<h3>{product.name}</h3>
+											</Link>
+											<p>${product.price / Math.pow(10, 2)}</p>
 										</div>
 									</div>
-								))}
-							</div>
+								</div>
+							))}
 						</div>
 					</div>
 				</div>
