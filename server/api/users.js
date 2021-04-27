@@ -37,6 +37,20 @@ router.put("/:id/cart/join", async (req, res, next) => {
 				userId: req.params.id,
 				isPaid: false,
 			});
+
+			const productId = productIds[0];
+			const product = await Product.findByPk(productId);
+			const quantity = quantities[0];
+			await loggedInCart.addProduct(product, {
+				through: { quantity: quantity, subtotal: quantity * product.price },
+			});
+
+			await loggedInCart.reload({
+				include: {
+					model: ProductOrder,
+					include: [Product],
+				},
+			});
 		}
 
 		while (productIds.length > 0) {
