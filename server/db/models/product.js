@@ -14,9 +14,9 @@ const Product = db.define("product", {
 		defaultValue: "https://picsum.photos/200",
 	},
 	price: {
-		type: Sequelize.DECIMAL(10, 2),
+		type: Sequelize.INTEGER,
 		validate: {
-			min: 0.01,
+			min: 1,
 		},
 	},
 	inventory: {
