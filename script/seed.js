@@ -81,7 +81,7 @@ async function seed() {
 		description:
 			"Rabbits are intelligent, affectionate and social animals that need daily interaction with humans or other rabbits.",
 		imageUrl: "/images/europeanRabbit.jpeg",
-		price: 19.99,
+		price: 1999,
 		inventory: 100,
 	});
 	const flemishGiant = await Product.create({
@@ -89,7 +89,7 @@ async function seed() {
 		description:
 			"The Flemish Giant rabbit is a very large breed of domestic rabbit (Oryctolagus cuniculus domesticus), normally considered to be the largest breed of the species. Flemish Giants are historically a utility breed bred for fur and meat. The breed is also known for being docile and patient in being handled, resulting in the large animals commonly being kept as pets.",
 		imageUrl: "/images/flemishGiantRabbit.jpg",
-		price: 100.0,
+		price: 10000,
 		inventory: 50,
 	});
 	const badBunny = await Product.create({
@@ -97,7 +97,7 @@ async function seed() {
 		description:
 			"Benito Antonio Martínez Ocasio (born March 10, 1994), known by his stage name Bad Bunny or El Conejo Malo, is a Puerto Rican rapper, singer, and songwriter. His music is often defined as Latin trap and reggaeton, but he has incorporated various other genres into his music, including rock, bachata, and soul. He is also known for his deep, slurred vocal style and his eclectic fashion sense.",
 		imageUrl: "/images/badBunny.jpg",
-		price: 1000000.0,
+		price: 100000000,
 		inventory: 1,
 	});
 	const netherlandDwarf = await Product.create({
@@ -105,7 +105,7 @@ async function seed() {
 		description:
 			"The Netherland Dwarf is a breed of domestic rabbit that originated in the Netherlands. Weighing 1.1–2.5 pounds (0.50–1.13 kg),[1][2] the Netherland Dwarf is one of the smallest rabbit breeds. Its popularity as a pet or show rabbit may stem from its neotenic appearance. The Netherland Dwarf is recognised by both the American Rabbit Breeders Association (ARBA)[1] and the British Rabbit Council (BRC).",
 		imageUrl: "/images/netherlandDwarf.jpeg",
-		price: 75.0,
+		price: 7500,
 		inventory: 25,
 	});
 	const kangaroo = await Product.create({
@@ -113,7 +113,7 @@ async function seed() {
 		description:
 			"The kangaroo is a marsupial from the family Macropodidae. In common use the term is used to describe the largest species from this family, the red kangaroo, as well as the antilopine kangaroo, eastern grey kangaroo, and western grey kangaroo. Kangaroos are indigenous to Australia and New Guinea.",
 		imageUrl: "/images/kangaroo.jpeg",
-		price: 500.0,
+		price: 50000,
 		inventory: 10,
 	});
 	const americanBullfrog = await Product.create({
@@ -121,7 +121,7 @@ async function seed() {
 		description:
 			"The American bullfrog, often simply known as the bullfrog in Canada and the United States, is a large true frog native to eastern North America. It typically inhabits large permanent water bodies such as swamps, ponds, and lakes.",
 		imageUrl: "/images/americanBullfrog.jpeg",
-		price: 29.99,
+		price: 2999,
 		inventory: 1000,
 	});
 	const poisonDartFrog = await Product.create({
@@ -129,29 +129,29 @@ async function seed() {
 		description:
 			"Poison dart frog is the common name of a group of frogs in the family Dendrobatidae which are native to tropical Central and South America. These species are diurnal and often have brightly colored bodies. This bright coloration is correlated with the toxicity of the species, making them aposematic.",
 		imageUrl: "/images/poisionDartFrog.jpeg",
-		price: 99.99,
+		price: 9999,
 		inventory: 100,
 	});
 	const hollandLop = await Product.create({
 		name: "Holland Lop Rabbit",
 		description:
-			"Grasshoppers are a group of insects belonging to the suborder Caelifera. They are among what is probably the most ancient living group of chewing herbivorous insects, dating back to the early Triassic around 250 million years ago.",
+		`Holland Lop is a breed of domestic rabbit that was recognized by the American Rabbit Breeders Association (ARBA) in 1979 and by the Netherlands' Governing Rabbit Council in 1984. The Holland Lop, with a maximum weight of 4 lb (1.8 kg) (as stipulated by ARBA), is one of the smallest lop-eared breeds.`,
 		imageUrl: "/images/hollandLop.jpeg",
-		price: 499.99,
+		price: 49999,
 		inventory: 50000,
 	});
 	const kangarooRat = await Product.create({
 		name: "Kangaroo Rat",
 		description: `Kangaroo rats, small mostly nocturnal rodents of genus Dipodomys, are native to arid areas of western North America. The common name derives from their bipedal form. They hop in a manner similar to the much larger kangaroo, but developed this mode of locomotion independently, like several other clades of rodents`,
 		imageUrl: "/images/kangarooRat.jpeg",
-		price: 50.0,
+		price: 5000,
 		inventory: 10000,
 	});
 	const hops = await Product.create({
 		name: "Hops",
 		description: `Hops are the flowers (also called seed cones or strobiles) of the hop plant Humulus lupulus,[1] a member of the Cannabaceae family of flowering plants.[2] They are used primarily as a bittering, flavouring, and stability agent in beer, to which, in addition to bitterness, they impart floral, fruity, or citrus flavours and aromas.[3] Hops are also used for various purposes in other beverages and herbal medicine. `,
 		imageUrl: "/images/hops.jpeg",
-		price: 5.99,
+		price: 599,
 		inventory: 1000000000,
 	});
 

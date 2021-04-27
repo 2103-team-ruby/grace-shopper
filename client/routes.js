@@ -1,4 +1,3 @@
-
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch } from "react-router-dom";
@@ -8,7 +7,8 @@ import { me } from "./store";
 import AllProducts from "./components/AllProducts";
 import SelectedProduct from "./components/SelectedProduct";
 import UserCart from "./components/TestCart";
-
+import GuestCart from "./components/GuestCart";
+import LoginOrSignup from "./components/LoginOrSignup";
 
 /**
  * COMPONENT
@@ -27,7 +27,9 @@ class Routes extends Component {
 					<Route exact path='/products/:id' component={SelectedProduct} />
 					<Route path='/login' component={Login} />
 					<Route path='/signup' component={Signup} />
-					<Route path='/cart' component={UserCart} />
+					<Route exact path='/cart' component={UserCart} />
+					<Route exact path='/guestCart' component={GuestCart} />
+					<Route exact path='/loginOrSignUp' component={LoginOrSignup} />
 				</Switch>
 			</div>
 		);
