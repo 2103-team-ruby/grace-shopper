@@ -7,51 +7,79 @@ import { Link } from "react-router-dom";
 // (below) is not connected to Redux, while the default export (at the very
 // bottom) is connected to Redux. Our tests should cover _both_ cases.
 export class AllProducts extends React.Component {
-	componentDidMount() {
-		this.props.getProducts();
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: "all",
+    };
+    this.handleChange = this.changedDropdown.bind(this);
+  }
 
-	render() {
-		const { products } = this.props;
-		return (
-			<div className='container'>
-				<div className='allProducts'>
-					<div className='album py-5 bg-light'>
-						<div className='container'>
-							<div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
-								{products.map((product) => (
-									<div className='col' key={product.id}>
-										<div className='card shadow-sm'>
-											<img
-												className='card-img-top'
-												preserveAspectRatio='xMidYMid slice'
-												src={product.imageUrl}
-												alt={product.name}
-											/>
-											<div className='card-body text-center'>
-												<Link to={`/products/${product.id}`}>
-													<h3>{product.name}</h3>
-												</Link>
-												<p>${product.price}</p>
-											</div>
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
+  componentDidMount() {
+    this.props.getProducts();
+  }
+
+  changedDropdown(event) {
+    console.log(this.state.value);
+    this.setState({ value: event.target.value });
+  }
+
+  render() {
+    const { value } = this.state;
+    const products = this.props.products.filter((product) => {
+      if (value === "all") return product;
+      if (value === "low") return product.price < 49.0;
+      if (value === "medium") return product.price < 450 && product.price > 49;
+      if (value === "high") return product.price > 450;
+    });
+    return (
+      <div className="container">
+        <label htmlFor="prices">Filter Prices:</label>
+        <select name="prices" onChange={this.handleChange}>
+          <option value="all">all</option>
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
+        </select>
+        <div className="allProducts">
+          <div className="album py-5 bg-light">
+            <div className="container">
+              <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div className="pet-list">
+                  {products.map((product) => (
+                    <div className="col" key={product.id}>
+                      <div className="card shadow-sm">
+                        <img
+                          className="card-img-top"
+                          preserveAspectRatio="xMidYMid slice"
+                          src={product.imageUrl}
+                          alt={product.name}
+                        />
+                        <div className="card-body text-center">
+                          <Link to={`/products/${product.id}`}>
+                            <h3>{product.name}</h3>
+                          </Link>
+                          <p>${product.price}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapState = (state) => ({
-	products: state.allProducts,
+  products: state.allProducts,
 });
 
 const mapDispatch = (dispatch) => ({
-	getProducts: () => dispatch(fetchProducts()),
+  getProducts: () => dispatch(fetchProducts()),
 });
 
 export default connect(mapState, mapDispatch)(AllProducts);
