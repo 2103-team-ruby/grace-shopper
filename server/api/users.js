@@ -116,6 +116,7 @@ router.get("/:id/cart", requireToken, async (req, res, next) => {
 
 router.post("/:id/cart", requireToken, async (req, res, next) => {
   try {
+		if (Number(req.params.id) === req.user.id){
     const newproductId = req.body.productId;
     const newProduct = await Product.findByPk(newproductId);
 
@@ -162,13 +163,17 @@ router.post("/:id/cart", requireToken, async (req, res, next) => {
         res.send(productOrder);
       }
     }
+	} else {
+		res.send("WRONG USER").status(403)
+	}
   } catch (error) {
     next;
   }
 });
 
-router.put("/:id/cart/", async (req, res, next) => {
+router.put("/:id/cart/", requireToken, async (req, res, next) => {
   try {
+		if (Number(req.params.id) === req.user.id){
     const { quantity, productId } = req.body;
     const product = await Product.findByPk(productId);
 
@@ -192,6 +197,9 @@ router.put("/:id/cart/", async (req, res, next) => {
     itemInCart.subtotal = product.price * itemInCart.quantity;
     await itemInCart.save();
     res.send(itemInCart);
+	} else {
+		res.send("WRONG PERSON")
+	}
   } catch (error) {
     next(error);
   }
