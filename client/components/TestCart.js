@@ -29,7 +29,7 @@ class TestCart extends Component {
 											quantity={order.quantity}
 										/>
 									</div>
-									<p className='mx-1 my-1'>Subtotal: ${order.subtotal}</p>
+									<p className='mx-1 my-1'>Subtotal: ${order.subtotal / Math.pow(10,2)}</p>
 									<div className='card-body pt-0'>
 										<div className='btn-group'>
 											<button
@@ -54,7 +54,7 @@ class TestCart extends Component {
 				<div className='my-1'>
 					Total: ${" "}
 					{cart.reduce((total, item) => {
-						return Number(total) + Number(item.subtotal);
+						return Number(total) + Number(item.subtotal / Math.pow(10,2));
 					}, 0)}
 				</div>
 				<button

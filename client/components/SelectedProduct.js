@@ -43,7 +43,7 @@ class SelectedProduct extends React.Component {
 								<h2 className='card-title display-5'>{product.name}</h2>
 							</div>
 							<div className='card-text p-3'>
-								<h5>${product.price}</h5>
+								<h5>${product.price / Math.pow(10,2)}</h5>
 								<h5>In stock: {product.inventory}</h5>
 								<h5>{product.description}</h5>
 								{this.props.isLoggedIn ? (

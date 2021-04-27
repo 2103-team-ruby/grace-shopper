@@ -83,7 +83,7 @@ class GuestCart extends React.Component {
 									</div>
 									<p className='mx-1 my-1'>
 										Subtotal:{" "}
-										{`$ ${product.price * localStorage.getItem(product.id)}`}
+										{`$ ${product.price * localStorage.getItem(product.id) / Math.pow(10,2)}`}
 									</p>
 									<div className='card-body pt-0'>
 										<div className='btn-group'>
@@ -98,7 +98,7 @@ class GuestCart extends React.Component {
 													Running Subtotal:
 													{
 														(subtotal +=
-															product.price * localStorage.getItem(product.id))
+															product.price * localStorage.getItem(product.id) / Math.pow(10,2))
 													}
 												</p>
 											</div>
