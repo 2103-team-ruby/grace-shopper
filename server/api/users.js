@@ -51,6 +51,9 @@ router.put("/:id/cart/join", async (req, res, next) => {
 					include: [Product],
 				},
 			});
+
+			productIds.shift();
+			quantities.shift();
 		}
 
 		while (productIds.length > 0) {
