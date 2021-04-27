@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchCart, deleteProduct, submitOrder } from "../store/cart";
+import GuestCart from "./GuestCart";
 import TestEditCart from "./TestEditCart";
 
 class TestCart extends Component {
@@ -10,7 +11,7 @@ class TestCart extends Component {
 
 	render() {
 		const cart = this.props.cart;
-		console.log(cart);
+		console.log(this.props);
 
 		return (
 			<div className='container'>
@@ -72,6 +73,7 @@ const mapStateToProps = (state) => {
 	return {
 		cart: state.cartProducts,
 		userId: state.auth.id,
+		isLoggedIn: !!state.auth.id,
 	};
 };
 

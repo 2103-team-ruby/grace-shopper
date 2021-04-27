@@ -4,6 +4,10 @@ import { addToCart } from "../store/cart";
 import { fetchProduct } from "../store/singleProduct";
 
 class SelectedProduct extends React.Component {
+	constructor() {
+		super();
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
 	componentDidMount() {
 		try {
 			this.props.getSingleProduct(this.props.match.params.id);
@@ -11,10 +15,18 @@ class SelectedProduct extends React.Component {
 			console.log(error);
 		}
 	}
+
+	handleSubmit(id) {
+		let quan = 1;
+		if (localStorage.getItem(id) >= 1) {
+			quan = localStorage.getItem(id);
+			quan++;
+		}
+		localStorage.setItem(id, quan);
+	}
+
 	render() {
 		const { product } = this.props;
-		console.log(this.props);
-
 		return (
 			<div className='container'>
 				<div className='card my-3'>
@@ -34,13 +46,22 @@ class SelectedProduct extends React.Component {
 								<h5>${product.price}</h5>
 								<h5>In stock: {product.inventory}</h5>
 								<h5>{product.description}</h5>
-								<button
-									className='btn btn-sm btn-outline-secondary my-1'
-									onClick={() =>
-										this.props.addToCart(this.props.userId, product.id)
-									}>
-									Add to Cart
-								</button>
+								{this.props.isLoggedIn ? (
+									<button
+										className='btn btn-sm btn-outline-secondary my-1'
+										onClick={() =>
+											this.props.addToCart(this.props.userId, product.id)
+										}>
+										Add to Cart
+									</button>
+								) : (
+									<button
+										className='btn btn-sm btn-outline-secondary my-1'
+										onSubmit={(ev) => ev.preventDefault()}
+										onClick={() => this.handleSubmit(product.id)}>
+										Add to Cart
+									</button>
+								)}
 							</div>
 						</div>
 					</div>
@@ -54,6 +75,7 @@ const mapStateToProps = (state) => {
 	return {
 		product: state.singleProduct,
 		userId: state.auth.id,
+		isLoggedIn: !!state.auth.id,
 	};
 };
 

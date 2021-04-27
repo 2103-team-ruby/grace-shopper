@@ -17,6 +17,85 @@ router.get("/", isAdmin, async (req, res, next) => {
 	}
 });
 
+router.put("/:id/cart/join", async (req, res, next) => {
+	try {
+		const productIds = req.body.productIds;
+		const quantities = req.body.quantities;
+		let loggedInCart = await Order.findOne({
+			where: {
+				userId: req.params.id,
+				isPaid: false,
+			},
+			include: {
+				model: ProductOrder,
+				include: [Product],
+			},
+		});
+
+		if (!loggedInCart) {
+			loggedInCart = await Order.create({
+				userId: req.params.id,
+				isPaid: false,
+			});
+
+			const productId = productIds[0];
+			const product = await Product.findByPk(productId);
+			const quantity = quantities[0];
+			await loggedInCart.addProduct(product, {
+				through: { quantity: quantity, subtotal: quantity * product.price },
+			});
+
+			await loggedInCart.reload({
+				include: {
+					model: ProductOrder,
+					include: [Product],
+				},
+			});
+
+			productIds.shift();
+			quantities.shift();
+		}
+
+		while (productIds.length > 0) {
+			const productId = productIds[0];
+			const product = await Product.findByPk(productId);
+			const quantity = quantities[0];
+
+			const productOrders = loggedInCart.productOrders;
+
+			const indexOfItem = productOrders
+				.map((productOrder) => productOrder.productId)
+				.indexOf(productId);
+
+			if (indexOfItem === -1) {
+				await loggedInCart.addProduct(product, {
+					through: { quantity: quantity, subtotal: quantity * product.price },
+				});
+			} else {
+				const productOrder = productOrders[indexOfItem];
+				const newQuantity = productOrder.quantity + quantity;
+				productOrder.quantity = newQuantity;
+				productOrder.subtotal = product.price * productOrder.quantity;
+				await productOrder.save();
+			}
+
+			productIds.shift();
+			quantities.shift();
+		}
+
+		await loggedInCart.reload({
+			include: {
+				model: ProductOrder,
+				include: [Product],
+			},
+		});
+
+		res.send(loggedInCart.productOrders);
+	} catch (error) {
+		next(error);
+	}
+});
+
 router.get("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
 	try {
 		const order = await Order.findOne({
