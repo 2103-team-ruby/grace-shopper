@@ -7,13 +7,16 @@ import allProductsReducer from "./allProducts";
 import singleProductReducer from "./singleProduct";
 import cartReducer from "./cart";
 import guestCartReducer from "./guestCart"
+import userProfileReducer from "./userProfile"
+import UserProfileReducer from "./userProfile";
 
 const reducer = combineReducers({
   auth,
   singleProduct: singleProductReducer,
   allProducts: allProductsReducer,
   cartProducts: cartReducer,
-  guestCart: guestCartReducer
+  guestCart: guestCartReducer,
+  userProfile: UserProfileReducer
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

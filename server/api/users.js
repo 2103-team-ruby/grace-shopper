@@ -262,3 +262,44 @@ router.get("/:id/orders", requireToken, async (req, res, next) => {
     next(error);
   }
 });
+
+
+//Tier 2 - User Profile
+
+router.get("/:id/profile", requireToken,
+async (req, res, next) => {
+	try {
+		if (Number(req.params.id) === req.user.id) {
+		console.log('this is req.params --->', req.params)
+		const user = await User.findOne({
+			where: {
+				id: req.user.id,
+			},
+		});
+		res.json(user)
+	}
+	} catch (error) {
+		next(error);
+	}
+}
+);
+
+//PUT /api/users/:id
+router.put('/:id', requireToken, async (req, res, next) => {
+	try {
+		if (Number(req.params.id) === req.user.id) {
+		const user = await User.findOne(
+			{ where: {
+			id: req.user.id,
+		},
+	})
+		res.status(204).send( await user.update(req.body));
+		} else {
+			res.redirect('/products')
+		}
+	} catch (error) {
+		next(error)
+	}
+})
+
+
