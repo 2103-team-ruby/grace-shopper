@@ -36,10 +36,10 @@ export class AllProducts extends React.Component {
       <div className="container">
         <label htmlFor="prices">Filter Prices:</label>
         <select name="prices" onChange={this.handleChange}>
-          <option value="all">all</option>
-          <option value="low">low</option>
-          <option value="medium">medium</option>
-          <option value="high">high</option>
+          <option value="all">All</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
         </select>
         <div className="allProducts">
           <div className="album py-5 bg-light">
