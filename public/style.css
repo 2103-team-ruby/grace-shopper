@@ -27,3 +27,16 @@ img {
 .hiddenTotal {
   display: none;
 }
+
+.previousOrders {
+	border: 2px solid grey;
+	margin: 20px;
+	padding: 10px;
+}
+.previousOrders > .past-orders > img {
+	border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: auto;
+  height: auto;
+}

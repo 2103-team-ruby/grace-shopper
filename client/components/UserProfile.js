@@ -53,6 +53,7 @@ class UserProfile extends React.Component {
         const hasPastOrders = userInfo.pastOrder[0]
         const {handleChange, handleSubmit} = this;
         const {username, password} = this.state
+        let subtotal = 0;
 		console.log('this is hasPastOrders -->', this.props);
 
 		return (
@@ -75,7 +76,7 @@ class UserProfile extends React.Component {
                         {hasPastOrders && console.log('this is in render -->', hasPastOrders.productOrders)}
                         </form>
                     </div>
-                    <div>
+                    <div className='previousOrders'>
                         <h3>Previous Orders: </h3>
                         {hasPastOrders ?  ( <div className='past-orders'>
                         { hasPastOrders.productOrders.map((product) => {
@@ -92,10 +93,14 @@ class UserProfile extends React.Component {
                             </Link>
                             <p>Price: {product.product.price}</p>
                             <p>Quantity: {product.quantity}</p>
-                            <p>Subtotal: {product.subtotal}</p>
+                            <p>Product Total: {product.subtotal}</p>
+                            <div className="hiddenTotal">
+                            <p>Running Subtotal:{subtotal += product.product.price * product.quantity}</p>
+                            </div>
                         </div>
                     )
                 })}
+                  <p>Order Total: {subtotal}</p>
                 </div>
                 
                     ) : (
