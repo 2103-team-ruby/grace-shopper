@@ -7,6 +7,7 @@ const EDITED_CART = "EDITED_CART";
 const ADDED_PRODUCT = "ADDED_PRODUCT";
 const SUBMITED_ORDER = "SUBMITTED_ORDER";
 const LOAD_ORDERS = "LOAD_ORDERS";
+const TOKEN = "token"
 
 export const setProducts = (products) => ({
 	type: GOT_ALL_CART_PRODUCTS,
@@ -43,7 +44,10 @@ const _fetchOrders = (orders) => ({
 export const fetchCart = (id) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.get(`/api/users/${id}/cart`);
+			const token = window.localStorage.getItem(TOKEN)
+			const response = await axios.get(`/api/users/${id}/cart`,
+			{headers: {"authorization": token}}
+			);
 			const products = response.data;
 			dispatch(setProducts(products));
 		} catch (error) {
@@ -55,11 +59,13 @@ export const fetchCart = (id) => {
 export const addToCart = (userId, productId) => {
 	try {
 		return async (dispatch) => {
+			const token = window.localStorage.getItem(TOKEN)
 			const { data: productOrder } = await axios.post(
 				`/api/users/${userId}/cart`,
 				{
 					productId: productId,
-				}
+				},
+				{headers: {"authorization": token}}
 			);
 			dispatch(_addProduct(productOrder));
 		};
@@ -69,7 +75,10 @@ export const addToCart = (userId, productId) => {
 export const deleteProduct = (userId, productId) => {
 	return async (dispatch) => {
 		try {
-			await axios.delete(`/api/users/${userId}/cart/${productId}`);
+			const token = window.localStorage.getItem(TOKEN)
+			await axios.delete(`/api/users/${userId}/cart/${productId}`,
+			{headers: {"authorization": token}}
+			);
 			dispatch(deletedProduct(productId));
 		} catch (error) {
 			console.log(error);
@@ -79,11 +88,12 @@ export const deleteProduct = (userId, productId) => {
 
 export const submitOrder = (userId, orderId) => {
 	return async (dispatch) => {
+		const token = window.localStorage.getItem(TOKEN)
 		const { data: order } = await axios.put(
 			`/api/users/${userId}/orders/${orderId}`,
 			{
 				isPaid: true,
-			}
+			}, {headers: {"authorization": token}}
 		);
 		dispatch(_submitOrder(order));
 	};
@@ -91,10 +101,12 @@ export const submitOrder = (userId, orderId) => {
 
 export const editCart = (userId, productId, quantity) => {
 	return async (dispatch) => {
+		const token = window.localStorage.getItem(TOKEN)
 		const { data: updated } = await axios.put(`/api/users/${userId}/cart`, {
 			productId: productId,
 			quantity: quantity,
-		});
+		}, {headers: {"authorization": token}}
+		);
 		dispatch(_editCart(updated));
 	};
 };

@@ -3,8 +3,6 @@ const Order = require("../db/models/order");
 const {
   requireToken,
   isAdmin,
-  isCorrectUser,
-  isCorrectUserOrAdmin,
 } = require("./gatekeepingMiddleware");
 
 const router = require("express").Router();
@@ -30,7 +28,7 @@ router.get("/:productId", async (req, res, next) => {
 });
 
 // POST /api/products/
-router.post('/', isAdmin, async (req, res, next) => {
+router.post('/', requireToken, isAdmin, async (req, res, next) => {
 try {
 	const newProduct = await Product.create(req.body)
 	res.json(newProduct)
@@ -40,7 +38,7 @@ try {
 });
 
 // PUT /api/products/:id
-router.put("/:productId", isAdmin, async (req, res, next) => {
+router.put("/:productId", requireToken, isAdmin, async (req, res, next) => {
 	try {
 		const productToUpdate = await Product.findByPk(req.params.productId)
 		res.json(await productToUpdate.update(req.body))
@@ -50,7 +48,7 @@ router.put("/:productId", isAdmin, async (req, res, next) => {
 })
 
 //Delete /api/products/:id
-router.delete("/:productId", isAdmin, async (req, res, next) => {
+router.delete("/:productId", requireToken, isAdmin, async (req, res, next) => {
 	try {
 		const deletedProduct = await Product.findByPk(req.params.productId)
 		console.log(deletedProduct)
