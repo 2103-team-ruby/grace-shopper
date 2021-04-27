@@ -3,10 +3,10 @@ const User = require("../db/models/user");
 const ProductOrder = require("../db/models/productOrder");
 const Order = require("../db/models/order");
 const Product = require("../db/models/product");
-const { isAdmin, isCorrectUserOrAdmin } = require("./gatekeepingMiddleware");
+const { isAdmin, requireToken } = require("./gatekeepingMiddleware");
 module.exports = router;
 
-router.get("/", isAdmin, async (req, res, next) => {
+router.get("/", requireToken, isAdmin, async (req, res, next) => {
 	try {
 		const users = await User.findAll({
 			attributes: ["id", "username"],
@@ -17,7 +17,7 @@ router.get("/", isAdmin, async (req, res, next) => {
 	}
 });
 
-router.get("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
+router.get("/:id/cart", async (req, res, next) => {
 	try {
 		const order = await Order.findOne({
 			where: {
@@ -31,7 +31,7 @@ router.get("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
 	} catch (error) {}
 });
 
-router.post("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
+router.post("/:id/cart", async (req, res, next) => {
 	try {
 		const newproductId = req.body.productId;
 		const newProduct = await Product.findByPk(newproductId);
@@ -84,7 +84,7 @@ router.post("/:id/cart", isCorrectUserOrAdmin, async (req, res, next) => {
 	}
 });
 
-router.put("/:id/cart/", isCorrectUserOrAdmin, async (req, res, next) => {
+router.put("/:id/cart/", async (req, res, next) => {
 	try {
 		const { quantity, productId } = req.body;
 		const product = await Product.findByPk(productId);
@@ -116,7 +116,6 @@ router.put("/:id/cart/", isCorrectUserOrAdmin, async (req, res, next) => {
 
 router.delete(
 	"/:id/cart/:itemId",
-	isCorrectUserOrAdmin,
 	async (req, res, next) => {
 		try {
 			const order = await Order.findOne({
@@ -135,7 +134,6 @@ router.delete(
 
 router.put(
 	"/:id/orders/:orderId",
-	isCorrectUserOrAdmin,
 	async (req, res, next) => {
 		//should this be admin or customer & admin
 		try {
