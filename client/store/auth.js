@@ -28,7 +28,9 @@ export const me = () => async (dispatch) => {
 				authorization: token,
 			},
 		});
-		dispatch(combinedCarts(res.data.id));
+		if (res.data.id) {
+			dispatch(combinedCarts(res.data.id));
+		}
 		dispatch(setAuth(res.data));
 	}
 };
