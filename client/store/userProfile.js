@@ -43,7 +43,6 @@ export const fetchPastOrders = (id) => {
 				headers: { authorization: token },
 			});
 			const userPastOrders = response.data;
-			// console.log('this is previous order --->', userPastOrders)
 			dispatch(pastOrders(userPastOrders));
 		} catch (error) {
 			console.log(error);

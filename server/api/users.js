@@ -270,7 +270,6 @@ router.get("/:id/orders", requireToken, async (req, res, next) => {
 router.get("/:id/profile", requireToken, async (req, res, next) => {
 	try {
 		if (Number(req.params.id) === req.user.id) {
-			console.log("this is req.params --->", req.params);
 			const user = await User.findOne({
 				where: {
 					id: req.user.id,
@@ -286,9 +285,6 @@ router.get("/:id/profile", requireToken, async (req, res, next) => {
 //PUT /api/users/:id
 router.put("/:id", async (req, res, next) => {
 	try {
-		console.log("IN THE TRY");
-
-		console.log("IN THE IF");
 		const user = await User.findOne({
 			where: {
 				id: req.params.id,

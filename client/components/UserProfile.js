@@ -79,10 +79,7 @@ class UserProfile extends React.Component {
 								Update
 							</button>
 							{hasPastOrders &&
-								console.log(
-									"this is in render -->",
-									hasPastOrders.productOrders
-								)}
+								}
 						</form>
 					</div>
 					<div className='previousOrders'>
