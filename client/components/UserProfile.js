@@ -78,8 +78,7 @@ class UserProfile extends React.Component {
 								type='submit'>
 								Update
 							</button>
-							{hasPastOrders &&
-								}
+							{hasPastOrders}
 						</form>
 					</div>
 					<div className='previousOrders'>
